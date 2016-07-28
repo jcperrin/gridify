@@ -5,6 +5,7 @@ from PIL import Image #library for manipulating imgs
 import logging
 
 logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s')
+logging.disable(logging.CRITICAL)
 
 def get_filename():
     logging.debug('getting file')
