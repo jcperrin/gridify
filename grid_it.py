@@ -3,13 +3,25 @@
 #import modules
 from PIL import Image #library for manipulating imgs
 import logging
+import os
+import sys
 
 logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s')
-logging.disable(logging.CRITICAL)
+#logging.disable(logging.CRITICAL)
 
+#this function prompts the user for a valid file name
+#it loops until a valid name is entered
+#
+# TODO: Test if the file is a valid image file
 def get_filename():
     logging.debug('getting file')
-    return "filename.txt"
+    while True:
+        name = raw_input('Enter q to quit\nFile name: ')
+        if os.path.isfile(name) | (name is 'q'):
+            break
+        else:
+            print('File not found.\n')
+    return name
 
 def get_img(img):
     logging.debug('getting img')
