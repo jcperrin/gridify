@@ -38,10 +38,26 @@ def get_img(fname):
 def change_img(img):
     logging.debug('changing img')
     logging.debug( img.size)
+
     img_width, img_height = img.size
     logging.debug(img_width)
     logging.debug(img_height)
+    panes = divide_into_panes(img, img_width, img_height)
+    canvas = create_blank_canvas(img_width, img_height)
+    return "new_img.txt"
 
+# this function creates a correctly sized blank canvas for the 
+# photos to be placed on
+# default color of the canvas is white
+# eventually extendable to have varying space widths
+def create_blank_canvas(img_width, img_height):
+    logging.debug('create blank canvas')
+    return 'blank canvas'
+
+# this function creates a NUM_COLS by NUM_ROWS array of
+# 'sub-photos'
+def divide_into_panes(img, img_width, img_height):
+    logging.debug('divide into panes')
     pane_width = img_width / NUM_COLS
     pane_height = img_height / NUM_ROWS
     panes = [[0 for x in range(NUM_COLS)] for y in range(NUM_ROWS)]
@@ -51,12 +67,10 @@ def change_img(img):
             uly = y * pane_height
             pane = (ulx, uly, ulx + pane_width, uly + pane_height)
             panes[x][y] = img.crop(pane)
-     
-    return "new_img.txt"
-
+    return panes
+    
 def save_img(img):
     logging.debug('saving img')
-    
 
 def main():
     logging.debug('Start of the program.')
