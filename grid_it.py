@@ -40,7 +40,18 @@ def change_img(img):
     logging.debug(img_height)
     panes = divide_into_panes(img, img_width, img_height)
     canvas = create_blank_canvas(img_width, img_height)
+    final = paste_panes(canvas, panes)
+    final.show()
     return "new_img.txt"
+
+# this function merges the panes and canvas into one image
+def paste_panes(canvas, panes):
+    for row in range(NUM_ROWS):
+        for col in range(NUM_COLS):
+            pane = panes[col][row]
+            (w, h) = pane.size
+            canvas.paste(pane, ((10+w) * col, (h+10) * row))
+    return canvas
 
 # this function creates a correctly sized blank canvas for the 
 # photos to be placed on
@@ -49,7 +60,6 @@ def change_img(img):
 def create_blank_canvas(img_width, img_height):
     logging.debug('create blank canvas')
     canvas = Image.new("RGB", (img_width, img_height), "white")
-    canvas.show()
     return canvas
 
 # this function creates a NUM_COLS by NUM_ROWS array of
