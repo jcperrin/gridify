@@ -19,12 +19,8 @@ NUM_ROWS = 2
 # TODO: Test if the file is a valid image file
 def get_filename():
     logging.debug('getting file')
-    while True:
-        name = raw_input('Enter q to quit\nFile name: ')
-        if os.path.isfile(name) | (name is 'q'):
-            break
-        else:
-            print('File not found.\n')
+    if os.path.isfile(name) | (name is 'q'): 
+        return NULL
     return name
 
 #This funciton opens and sets up the image for manipulation
@@ -52,7 +48,9 @@ def change_img(img):
 # eventually extendable to have varying space widths
 def create_blank_canvas(img_width, img_height):
     logging.debug('create blank canvas')
-    return 'blank canvas'
+    canvas = Image.new("RGB", (img_width, img_height), "white")
+    canvas.show()
+    return canvas
 
 # this function creates a NUM_COLS by NUM_ROWS array of
 # 'sub-photos'
