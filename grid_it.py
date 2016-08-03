@@ -10,9 +10,9 @@ logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - 
 #logging.disable(logging.CRITICAL)
 
 #"Constants"
-NUM_COLS = 4
+NUM_COLS = 7
 NUM_ROWS = 5
-PANE_SPACING = 10
+PANE_SPACING = 20
 
 #this function prompts the user for a valid file name
 #it loops until a valid name is entered
@@ -44,8 +44,7 @@ def change_img(img):
     panes = divide_into_panes(img, pane_width, pane_height)
     canvas = create_blank_canvas(pane_width, pane_height)
     final = paste_panes(canvas, panes)
-    final.show()
-    return "new_img.txt"
+    return final
 
 # this function merges the panes and canvas into one image
 def paste_panes(canvas, panes):
@@ -87,10 +86,10 @@ def save_img(img):
 def main():
     logging.debug('Start of the program.')
    # fname = get_filename()
-    fname = 'face.jpg'
+    fname = 'martin.png'
     img = get_img(fname)
     output = change_img(img)
-    save_img(output)
+    output.save('grid_' + fname)
     logging.debug('End of program.')
 
 if __name__ == "__main__":
