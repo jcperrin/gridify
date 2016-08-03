@@ -7,7 +7,7 @@ import os
 import sys
 
 logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s')
-#logging.disable(logging.CRITICAL)
+logging.disable(logging.CRITICAL)
 
 #"Constants"
 NUM_COLS = 7
@@ -91,15 +91,23 @@ def divide_into_panes(img, pane_width, pane_height):
             panes[col][row] = img.crop(pane)
     return panes
     
+# this is for calling as imported program
+# argument fname - name of the file to be gridified
+# returns the altered image
+def gridify(fname):
+    img = get_img(fname)
+    if img == None:
+        return None
+    return change_img(img)
+
+# This is for running as a standalone program
 def main():
     logging.debug('Start of the program.')
     fname = get_filename()
     if fname == None:
-        return
-    img = get_img(fname)
-    if img != None:
-        output = change_img(img)
-        output.save('grid_' + fname)
+        return None
+    img = gridify(fname)
+    img.save('grid_' + fname)
     logging.debug('End of program.')
 
 if __name__ == "__main__":
