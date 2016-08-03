@@ -20,25 +20,36 @@ PANE_SPACING = 20
 # TODO: Test if the file is a valid image file
 def get_filename():
     logging.debug('getting file')
-    if os.path.isfile(name) | (name is 'q'): 
-        return NULL
-    return name
+    argument = sys.argv[-1]
+    if argument == '-h':
+        print('This program splits a photo into a grid.')
+        print('It takes the file name of the photo as an argument.')
+        print('')
+        print('Append flag -h for help')
+        return None
+    elif argument == sys.argv[0]:
+        print('Usage')
+        print('$ python grid_it.py <file_name> [-h]')
+        return None
+    return argument
 
 #This funciton opens and sets up the image for manipulation
 def get_img(fname):
     logging.debug('getting img')
-    return Image.open(fname)
+    try:
+        return Image.open(fname)
+    except IOError:
+        print('There was an error opening your requested file')
+        print('Ensure the name and extension are entered correctly')
+        return None
 
 #this function does the actual image manipulation
 #The change intended is to create a grid of spread blocks
 #ultimately, the blocks will be sampled from overlapping frames
 def change_img(img):
     logging.debug('changing img')
-    logging.debug( img.size)
 
     img_width, img_height = img.size
-    logging.debug(img_width)
-    logging.debug(img_height)
     pane_width = 2 * img_width / (NUM_COLS + 1)
     pane_height = 2 * img_height / (NUM_ROWS + 1)
     panes = divide_into_panes(img, pane_width, pane_height)
@@ -80,16 +91,15 @@ def divide_into_panes(img, pane_width, pane_height):
             panes[col][row] = img.crop(pane)
     return panes
     
-def save_img(img):
-    logging.debug('saving img')
-
 def main():
     logging.debug('Start of the program.')
-   # fname = get_filename()
-    fname = 'martin.png'
+    fname = get_filename()
+    if fname == None:
+        return
     img = get_img(fname)
-    output = change_img(img)
-    output.save('grid_' + fname)
+    if img != None:
+        output = change_img(img)
+        output.save('grid_' + fname)
     logging.debug('End of program.')
 
 if __name__ == "__main__":
