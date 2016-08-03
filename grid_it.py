@@ -10,8 +10,8 @@ logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - 
 #logging.disable(logging.CRITICAL)
 
 #"Constants"
-NUM_COLS = 2
-NUM_ROWS = 2
+NUM_COLS = 4
+NUM_ROWS = 5
 
 #this function prompts the user for a valid file name
 #it loops until a valid name is entered
@@ -68,13 +68,13 @@ def divide_into_panes(img, img_width, img_height):
     logging.debug('divide into panes')
     pane_width = img_width / NUM_COLS
     pane_height = img_height / NUM_ROWS
-    panes = [[0 for x in range(NUM_COLS)] for y in range(NUM_ROWS)]
-    for x in range(NUM_COLS):
-        for y in range(NUM_ROWS):
-            ulx = x * pane_width
-            uly = y * pane_height
+    panes = [[0 for row in range(NUM_ROWS)] for col in range(NUM_COLS)]
+    for col in range(NUM_COLS):
+        for row in range(NUM_ROWS):
+            ulx = col * pane_width
+            uly = row * pane_height
             pane = (ulx, uly, ulx + pane_width, uly + pane_height)
-            panes[x][y] = img.crop(pane)
+            panes[col][row] = img.crop(pane)
     return panes
     
 def save_img(img):
