@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - 
 #"Constants"
 NUM_COLS = 4
 NUM_ROWS = 5
+PANE_SPACING = 10
 
 #this function prompts the user for a valid file name
 #it loops until a valid name is entered
@@ -38,8 +39,10 @@ def change_img(img):
     img_width, img_height = img.size
     logging.debug(img_width)
     logging.debug(img_height)
-    panes = divide_into_panes(img, img_width, img_height)
-    canvas = create_blank_canvas(img_width, img_height)
+    pane_width = 2 * img_width / (NUM_COLS + 1)
+    pane_height = 2 * img_height / (NUM_ROWS + 1)
+    panes = divide_into_panes(img, pane_width, pane_height)
+    canvas = create_blank_canvas(pane_width, pane_height)
     final = paste_panes(canvas, panes)
     final.show()
     return "new_img.txt"
@@ -50,29 +53,30 @@ def paste_panes(canvas, panes):
         for col in range(NUM_COLS):
             pane = panes[col][row]
             (w, h) = pane.size
-            canvas.paste(pane, ((10+w) * col, (h+10) * row))
+            canvas.paste(pane, ((PANE_SPACING+w) * col,
+                (h+PANE_SPACING) * row))
     return canvas
 
 # this function creates a correctly sized blank canvas for the 
 # photos to be placed on
 # default color of the canvas is white
 # eventually extendable to have varying space widths
-def create_blank_canvas(img_width, img_height):
+def create_blank_canvas(pane_width, pane_height):
     logging.debug('create blank canvas')
-    canvas = Image.new("RGB", (img_width, img_height), "white")
+    canvas = Image.new("RGB",((pane_width + PANE_SPACING) * NUM_COLS -
+            PANE_SPACING,(pane_height + PANE_SPACING) * NUM_ROWS -
+            PANE_SPACING), "white")
     return canvas
 
 # this function creates a NUM_COLS by NUM_ROWS array of
 # 'sub-photos'
-def divide_into_panes(img, img_width, img_height):
+def divide_into_panes(img, pane_width, pane_height):
     logging.debug('divide into panes')
-    pane_width = img_width / NUM_COLS
-    pane_height = img_height / NUM_ROWS
     panes = [[0 for row in range(NUM_ROWS)] for col in range(NUM_COLS)]
     for col in range(NUM_COLS):
         for row in range(NUM_ROWS):
-            ulx = col * pane_width
-            uly = row * pane_height
+            ulx = col * pane_width / 2
+            uly = row * pane_height / 2
             pane = (ulx, uly, ulx + pane_width, uly + pane_height)
             panes[col][row] = img.crop(pane)
     return panes
