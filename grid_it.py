@@ -16,8 +16,6 @@ PANE_SPACING = 20
 
 #this function prompts the user for a valid file name
 #it loops until a valid name is entered
-#
-# TODO: Test if the file is a valid image file
 def get_filename():
     logging.debug('getting file')
     argument = sys.argv[-1]
@@ -30,6 +28,9 @@ def get_filename():
     elif argument == sys.argv[0]:
         print('Usage')
         print('$ python grid_it.py <file_name> [-h]')
+        return None
+    if not os.path.isfile(argument):
+        print('Invalid file name')
         return None
     return argument
 
