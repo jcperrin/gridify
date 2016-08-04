@@ -1,5 +1,3 @@
-Hi
-
 This program is an introduction to photo manipulation in python.
 It's inspired by a photo that I saw on the internet today
 describing how computer vision works. In it, the author
